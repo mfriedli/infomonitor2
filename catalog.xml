@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/src/main/resources/jaxb/game_schedule_1_0/game_schedule.xsd" uri="src/main/resources/jaxb/game_schedule/game_schedule.xsd"/>
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/src/main/resources/jaxb/totomat_1_0/totomat.xsd" uri="src/main/resources/jaxb/totomat/totomat.xsd"/>
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/src/main/resources/jaxb/totomat/totomat.xsd" uri="src/main/resources/jaxb/totomat/totomat.xsd"/>
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/src/main/resources/jaxb/game_schedule/game_schedule.xsd" uri="src/main/resources/jaxb/game_schedule/game_schedule.xsd"/>
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/../../InfoMonitor/InfoMonitor/InfoMonitor-ejb/src/main/resources/jaxb/game_schedule_1_0/game_schedule.xsd" uri="src/main/resources/jaxb/game_schedule/game_schedule.xsd"/>
+    <system systemId="file:/C:/Users/mfrie_000/Documents/NetBeansProjects/infomonitorNew/infomonitor-2/../../InfoMonitor/InfoMonitor/InfoMonitor-ejb/src/main/resources/jaxb/totomat_1_0/totomat.xsd" uri="src/main/resources/jaxb/totomat/totomat.xsd"/>
+</catalog>
