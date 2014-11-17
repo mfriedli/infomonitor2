@@ -2,9 +2,9 @@ package ch.friedli.infosystem.socket;
 
 import ch.friedli.infosystem.business.impl.ContentLoaderImpl;
 import ch.friedli.secureremoteinterfaceinfomonitor.ContentDetail;
-import ch.friedli.secureremoteinterfaceinfomonitor.ContentLoaderRemote;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,6 +42,8 @@ public class ContentEndpoint {
     
     @Resource
     TimerService timerService;
+    
+    private static final String timerName = "ContentTimer";
 
     /**
      * Returns the same message as received from the client. Currently this
@@ -65,10 +67,10 @@ public class ContentEndpoint {
     }
 
     public void setTimer(long intervalDuration) {
+        removeTimer();
         LOGGER.log(Level.FINE, "Setting a programmatic timeout for " +
                 intervalDuration + " milliseconds from now.");
-        Timer timer = this.timerService.createTimer(intervalDuration, 
-                "Created new programmatic timer");
+        Timer timer = this.timerService.createTimer(new Date(System.currentTimeMillis()+intervalDuration),intervalDuration, timerName);
     }
     @Timeout
     public void switchContent(Timer timer) {
@@ -88,7 +90,7 @@ public class ContentEndpoint {
                     this.currentItemShownIndex = 0; // back to first item again
                 }
                 setTimer(detail.getShowInterval());
-            } catch (IOException | EncodeException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(ContentEndpoint.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -103,4 +105,14 @@ public class ContentEndpoint {
     public void onError(Throwable t) {
         LOGGER.log(Level.SEVERE, "Websocket exception :{}", t.toString());
     }
+    
+    public void removeTimer() {  
+        for (Object obj : this.timerService.getTimers()) {  
+                javax.ejb.Timer timer = (javax.ejb.Timer) obj;  
+                String scheduled = (String) timer.getInfo();  
+                if (scheduled.equals(timerName)) {  
+                        timer.cancel();  
+                }  
+        }  
+    }  
 }

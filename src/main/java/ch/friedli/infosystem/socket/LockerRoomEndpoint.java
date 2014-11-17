@@ -6,7 +6,6 @@ package ch.friedli.infosystem.socket;
 import ch.friedli.infosystem.business.impl.GameScheduleLoaderImpl;
 import ch.friedli.infosystem.message.event.LockerRoomEvent;
 import ch.friedli.infosystem.message.event.annotation.WBLockerRoomEvent;
-import ch.friedli.secureremoteinterfaceinfomonitor.GameScheduleLoaderRemote;
 import ch.friedli.secureremoteinterfaceinfomonitor.LockerRoomDetail;
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,7 +29,7 @@ import javax.websocket.server.ServerEndpoint;
  * @author Michael Friedli
  */
 @Singleton
-@ServerEndpoint(value="/locckerroomendpoint", encoders={LockerRoomDetailsEncoder.class})
+@ServerEndpoint(value="/lockerroomendpoint", encoders={LockerRoomDetailsEncoder.class})
 //@Startup
 public class LockerRoomEndpoint {
 

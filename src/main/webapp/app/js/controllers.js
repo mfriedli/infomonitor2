@@ -10,7 +10,7 @@ infoMonitorApp.controller('LockerRoomCtrl', function LockerRoomCtrl($scope) {
     this.lockerrooms = [];
     this.connectionstate;
     
-    var ws = new WebSocket("ws://localhost:8080/InfoMonitor-web/locckerroomendpoint");
+    var ws = new WebSocket("ws://localhost:8080/InfoMonitor-web/lockerroomendpoint");
 
     ws.onopen = function() {
         thisCtrlCtx.connectionstate = "Succeeded to open a connection";
@@ -25,7 +25,10 @@ infoMonitorApp.controller('LockerRoomCtrl', function LockerRoomCtrl($scope) {
     function applyToCtrlScope(message) {
         $scope.$apply(function() {
             thisCtrlCtx.lockerrooms = angular.fromJson(message.data);
-            thisCtrlCtx.date = thisCtrlCtx.lockerrooms[0].Datum;
+            if (!angular.isUndefined(thisCtrlCtx.lockerrooms[0]) && 
+                    !angular.isUndefined(thisCtrlCtx.lockerrooms[0].Datum)) {
+               thisCtrlCtx.date = thisCtrlCtx.lockerrooms[0].Datum;
+            }
         });
     }
 

@@ -11,7 +11,7 @@ import ch.friedli.infosystem.message.event.annotation.WBTotomatEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.ejb.Timer;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -22,7 +22,7 @@ import javax.inject.Inject;
  *
  * @author Michael Friedli
  */
-@Stateless(name = "eventProducer")
+@Singleton(name = "eventProducer")
 public class EventProducer {
 
     private static final Logger LOGGER = Logger.getLogger(EventProducer.class.getName());
@@ -44,6 +44,7 @@ public class EventProducer {
     Event<BreakingNewsEvent> breakingNewsEvent;
 
     @Schedule(persistent = false, second = "*", minute = "*/30", hour = "*", info = "Locker Room Event publisher")
+    //@Schedule(persistent = false, second = "*/20", minute = "*", hour = "*", info = "Locker Room Event publisher")
     public void produceLockerRoomEvent(Timer t) {
         LOGGER.log(Level.FINE, "start to produce a new locker room event");
         LockerRoomEvent event = new LockerRoomEvent();
@@ -51,22 +52,24 @@ public class EventProducer {
     }
 
     @Schedule(persistent = false, second = "*", minute = "*/15", hour = "*", info = "Latest Result Event publisher")
+    //@Schedule(persistent = false, second = "*/20", minute = "*", hour = "*", info = "Latest Result Event publisher")
     public void produceLatestResultEvent(Timer t) {
         LOGGER.log(Level.FINE, "start to produce a new latest result event");
         LatestResultsEvent event = new LatestResultsEvent();
         this.latestResultEvent.fire(event);
     }
 
-    //@Schedule(dayOfWeek = "6,7", second = "*", minute = "*/2", hour = "9-22", info = "Totomat Event publisher")
-    @Schedule(persistent = false, second = "*", minute = "*/2", hour = "*", info = "Totomat Event publisher")
+    @Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/2", hour = "8-22", info = "Totomat Event publisher")
+    //@Schedule(persistent = false, second = "*", minute = "*/2", hour = "*", info = "Totomat Event publisher")
+    //@Schedule(persistent = false, second = "*/30", minute = "*", hour = "*", info = "Totomat Event publisher")
     public void produceTotomatEvent(Timer t) {
         LOGGER.log(Level.FINE, "start to produce a new totomat event");
         TotomatEvent event = new TotomatEvent();
         this.totomatEvent.fire(event);
     }
 
-    //@Schedule(second = "*", minute = "*/30", hour = "*", info = "BreakingNews Event publisher")
-    @Schedule(persistent = false, second = "*", minute = "*/5", hour = "*", info = "BreakingNews Event publisher")
+    @Schedule(second = "*", minute = "*/17", hour = "*", info = "BreakingNews Event publisher")
+    //@Schedule(persistent = false, second = "*", minute = "*/5", hour = "*", info = "BreakingNews Event publisher")
     public void produceBreakingNewsEvent(Timer t) {
         LOGGER.log(Level.FINE, "start to produce a new breaking news event");
         BreakingNewsEvent event = new BreakingNewsEvent();

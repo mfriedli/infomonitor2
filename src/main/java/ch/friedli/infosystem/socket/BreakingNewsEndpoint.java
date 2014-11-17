@@ -4,7 +4,6 @@ import ch.friedli.infosystem.business.impl.BreakingNewsLoaderImpl;
 import ch.friedli.infosystem.message.event.BreakingNewsEvent;
 import ch.friedli.infosystem.message.event.annotation.WBBreakingNewsEvent;
 import ch.friedli.secureremoteinterfaceinfomonitor.BreakingNewsDetail;
-import ch.friedli.secureremoteinterfaceinfomonitor.BreakingNewsLoaderRemote;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
