@@ -2,7 +2,6 @@ package ch.friedli.infosystem.socket;
 
 import ch.friedli.infosystem.business.impl.ContentLoaderImpl;
 import ch.friedli.secureremoteinterfaceinfomonitor.ContentDetail;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,8 +14,8 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
-import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -70,7 +69,11 @@ public class ContentEndpoint {
         removeTimer();
         LOGGER.log(Level.FINE, "Setting a programmatic timeout for " +
                 intervalDuration + " milliseconds from now.");
-        Timer timer = this.timerService.createTimer(new Date(System.currentTimeMillis()+intervalDuration),intervalDuration, timerName);
+        TimerConfig config = new TimerConfig();
+        config.setPersistent(false);
+        config.setInfo(timerName);
+        Timer timer = this.timerService.createIntervalTimer(
+                new Date(System.currentTimeMillis()+intervalDuration),intervalDuration, config);
     }
     @Timeout
     public void switchContent(Timer timer) {

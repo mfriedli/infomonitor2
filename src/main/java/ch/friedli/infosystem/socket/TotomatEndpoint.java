@@ -1,12 +1,6 @@
 package ch.friedli.infosystem.socket;
 
-
-
-
-
 import ch.friedli.infosystem.business.impl.TotomatLoaderImpl;
-import ch.friedli.infosystem.message.event.TotomatEvent;
-import ch.friedli.infosystem.message.event.annotation.WBTotomatEvent;
 import ch.friedli.secureremoteinterfaceinfomonitor.TotomatDetail;
 import java.io.IOException;
 import java.util.Collections;
@@ -16,8 +10,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.enterprise.event.Observes;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -65,14 +59,13 @@ public class TotomatEndpoint {
 
     
     /**
-     * Observes any WBTotomatEvent and sends a corresponding response to 
+     * Waits till the timer goes off and sends a corresponding response to 
      * all connected clients.
      * 
-     * @param event The WBTotomatEvent this method is observing
      */
-    public void onLockerRoomEvent(@Observes @WBTotomatEvent TotomatEvent event) {
-        LOGGER.log(Level.FINE, "Totomat Event observed {0}" + new Object[]{event.getTimestamp()});
-        for (Session peer : this.peers) {
+    @Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/2", hour = "8-22", info = "Totomat Event publisher")
+    public void onLockerRoomEvent() {    
+       for (Session peer : this.peers) {
             try {
                 List<TotomatDetail> details = this.totomatLoader.loadTotomatDetails();
                 peer.getBasicRemote().sendObject(details);

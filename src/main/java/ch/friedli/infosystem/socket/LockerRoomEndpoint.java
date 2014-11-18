@@ -4,8 +4,6 @@ package ch.friedli.infosystem.socket;
 
 
 import ch.friedli.infosystem.business.impl.GameScheduleLoaderImpl;
-import ch.friedli.infosystem.message.event.LockerRoomEvent;
-import ch.friedli.infosystem.message.event.annotation.WBLockerRoomEvent;
 import ch.friedli.secureremoteinterfaceinfomonitor.LockerRoomDetail;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,8 +12,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.enterprise.event.Observes;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -30,7 +28,6 @@ import javax.websocket.server.ServerEndpoint;
  */
 @Singleton
 @ServerEndpoint(value="/lockerroomendpoint", encoders={LockerRoomDetailsEncoder.class})
-//@Startup
 public class LockerRoomEndpoint {
 
     private static final Logger LOGGER = Logger.getLogger(LockerRoomEndpoint.class.getName());
@@ -61,13 +58,13 @@ public class LockerRoomEndpoint {
 
     
     /**
-     * Observes any WBLockerRoomEvents and sends a corresponding response to 
+     * Waits till the timer goes off and sends a corresponding response to 
      * all connected clients.
      * 
-     * @param event The WBLockerRoomEvent this method is observing
      */
-    public void onLockerRoomEvent(@Observes @WBLockerRoomEvent LockerRoomEvent event) {
-        LOGGER.log(Level.FINE, "LockerRoom Event observed {0}" + new Object[]{event.getTimestamp()});
+    @Schedule(persistent = false, second = "*", minute = "*/30", hour = "*", info = "Locker Room Event publisher")
+    //@Schedule(persistent = false, second = "*/13", minute = "*", hour = "*", info = "Locker Room Event publisher")
+    public void onLockerRoomEvent() {    
         for (Session peer : this.peers) {
             try {
                 List<LockerRoomDetail> details = this.gameScheduleLoader.loadGameSchedule();                

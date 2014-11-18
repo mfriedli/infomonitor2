@@ -1,8 +1,6 @@
 package ch.friedli.infosystem.socket;
 
 import ch.friedli.infosystem.business.impl.BreakingNewsLoaderImpl;
-import ch.friedli.infosystem.message.event.BreakingNewsEvent;
-import ch.friedli.infosystem.message.event.annotation.WBBreakingNewsEvent;
 import ch.friedli.secureremoteinterfaceinfomonitor.BreakingNewsDetail;
 import java.io.IOException;
 import java.util.Collections;
@@ -11,8 +9,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.enterprise.event.Observes;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -57,13 +55,13 @@ public class BreakingNewsEndpoint {
 
     
     /**
-     * Observes any WBTotomatEvent and sends a corresponding response to 
+     * Waits till the timer goes off and sends a corresponding response to 
      * all connected clients.
      * 
-     * @param event The WBTotomatEvent this method is observing
      */
-    public void onLockerRoomEvent(@Observes @WBBreakingNewsEvent BreakingNewsEvent event) {
-        LOGGER.log(Level.FINE, "BreakingNews Event observed {0}" + new Object[]{event.getTimestamp()});
+    @Schedule(persistent = false, second = "*", minute = "*/30", hour = "*", info = "Locker Room Event publisher")
+    //@Schedule(persistent = false, second = "*/30", minute = "*", hour = "*", info = "Locker Room Event publisher")
+    public void onLockerRoomEvent() {
         for (Session peer : this.peers) {
             try {
                 BreakingNewsDetail detail = this.breakingNewsLoader.loadBreakingNews();
