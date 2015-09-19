@@ -21,6 +21,8 @@ config(['$routeProvider', function($routeProvider) {
           .when('/addseason', {templateUrl: 'partials/addseason.html', controller: 'AddSeasonCtrl'}) 
           .when('/editseason/:itemId', {templateUrl: 'partials/editseason.html', controller: 'EditSeasonCtrl'})
           .when('/leaguesoverview', {templateUrl: 'partials/leaguesoverview.html', controller: 'LeaguesOverviewCtrl'})
+          .when('/uploadconfig', {templateUrl: 'partials/uploadconfig.html', controller: 'UploadConfigCtrl'})
+          .when('/importconfigfile', {templateUrl: 'partials/importconfigfile.html', controller: 'ImportConfigFileCtrl'}) 
           .when('/addleague', {templateUrl: 'partials/addleague.html', controller: 'AddLeagueCtrl'}) 
           .when('/editleague/:itemId', {templateUrl: 'partials/editleague.html', controller: 'EditLeagueCtrl'})           
           .otherwise({redirectTo: '/'});

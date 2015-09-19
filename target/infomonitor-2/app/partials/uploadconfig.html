@@ -1,0 +1,19 @@
+<div  ng-controller="UploadConfigCtrl as UploadConfigCtrl">
+    <form name="setActualConfigForm" ng-submit="saveActualConfiguration()">   
+        <div class="form-group add-form">            
+            <select id="seasonId" name="season" ng-model="UploadConfigCtrl.seasonId">
+                <option ng-repeat="season in UploadConfigCtrl.configuration.seasons" value="{{season.seasonId}}">{{season.seasonName}}</option>
+            </select>
+            <label for="seasonId">Zu aktivierende Saison</label>            
+            <p></p> 
+
+            <select id="leagueId" name="leagues" size="15" multiple  ng-model="UploadConfigCtrl.leagueItems">
+                <option ng-repeat="league in UploadConfigCtrl.configuration.leagues" value="{{league.leagueId}}" selected>{{league.leagueName}}</option>
+            </select>
+            <label for="leagueId">Zu aktivierende Ligen</label>                
+            <p></p> 
+            <button style="margin-top: 20px" type="submit" class="btn btn-default" ng-disabled="setActualConfigForm.$invalid">Importieren</button>
+        </div> 
+    </form>     
+        
+</div>
