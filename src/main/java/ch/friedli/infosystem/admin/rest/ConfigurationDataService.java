@@ -3,6 +3,11 @@ package ch.friedli.infosystem.admin.rest;
 import ch.friedli.infosystem.business.impl.ConfigurationLoaderImpl;
 import ch.friedli.secureremoteinterfaceinfomonitor.LeagueDetail;
 import ch.friedli.secureremoteinterfaceinfomonitor.SeasonDetail;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -20,6 +25,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -30,7 +38,30 @@ import javax.ws.rs.core.MediaType;
 public class ConfigurationDataService {
 
     private static final Logger LOGGER = Logger.getLogger(ConfigurationDataService.class.getName());
-
+    private static final String CONFIG_FILE = "c:/infomonitor/config/IHS_CONFIG.xlsx";
+    private static final Map<String,String> shortNameMap = new HashMap<>();
+    static {          
+        shortNameMap.put("NLA", "NLA");
+        shortNameMap.put("NLB", "NLB");
+        shortNameMap.put("1.", "1. Liga");
+        shortNameMap.put("2.", "2. Liga");
+        shortNameMap.put("3.", "3. Liga");
+        shortNameMap.put("4.", "4. Liga");
+        shortNameMap.put("5.", "5. Liga");
+        shortNameMap.put("Aktive", "Aktive");
+        shortNameMap.put("SK1", "SK1");
+        shortNameMap.put("SK2", "SK2");
+        shortNameMap.put("SK3", "SK3");
+        shortNameMap.put("SK4", "SK4");
+        shortNameMap.put("SK5", "SK5");
+        shortNameMap.put("Elite", "U18");
+        shortNameMap.put("Novizen", "U15");
+        shortNameMap.put("Mini", "U12");
+        shortNameMap.put("Moskito", "U9");
+        shortNameMap.put("Damen", "Damen");
+        shortNameMap.put("NM", "NM");        
+    }
+            
     @EJB
     ConfigurationLoaderImpl configurationLoader;
 
@@ -142,8 +173,8 @@ public class ConfigurationDataService {
         }
         JsonArray detailsJson = builder.build();
         return detailsJson.toString();
-    }
-    
+    }    
+   
     @GET
     @Path("/seasonItems")
     @Produces(MediaType.APPLICATION_JSON)
@@ -160,5 +191,123 @@ public class ConfigurationDataService {
         }
         JsonArray detailsJson = builder.build();
         return detailsJson.toString();
+    }
+    
+    @GET
+    @Path("/configuration")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getConfiguration() {
+        ConfigurationItem configItem = createConfigFromExcel();     
+        
+        JsonArrayBuilder builderLeagues = Json.createArrayBuilder();
+        for (LeagueItem league : configItem.getLeagueItems()) {
+            builderLeagues.add(
+                Json.createObjectBuilder()
+                        .add("leagueId", league.getLeagueId())
+                        .add("leagueName", league.getLeagueName()== null ? "" : league.getLeagueName())
+                        .add("leagueShortName", league.getLeagueShortName() == null ? "" : league.getLeagueShortName())
+            );
+        }  
+        
+        JsonArrayBuilder builderSeasons = Json.createArrayBuilder();
+        for (SeasonItem season : configItem.getSeasonItems()) {
+            builderSeasons.add(
+                Json.createObjectBuilder()
+                        .add("seasonId", season.getSeasonId())
+                        .add("seasonName", season.getSeasonName()== null ? "" : season.getSeasonName())
+            );
+        }  
+        
+        JsonObjectBuilder builderConfigItem = Json.createObjectBuilder()               
+            .add("seasons", builderSeasons)
+            .add("leagues", builderLeagues);
+        return builderConfigItem.build().toString();               
+    }
+    
+    @POST
+    @Path("/importConfiguration")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void importConfiguration(ConfigurationIdsSaveItem item) {
+        LOGGER.log(Level.FINE, "import configuration called");
+        ConfigurationItem config = createConfigFromExcel();
+        Map<String, LeagueItem> leagueIdLeagueMap = new HashMap<>();
+        for (LeagueItem league : config.getLeagueItems()) {
+            leagueIdLeagueMap.put(league.getLeagueId().toString(), league);
+        }
+        Map<String, SeasonItem> seasonIdSeasonMap = new HashMap<>();
+        for (SeasonItem season : config.getSeasonItems()) {
+            seasonIdSeasonMap.put(season.getSeasonId().toString(), season);
+        }
+        
+        // clear old sesons and leagues
+        this.configurationLoader.deleteAllSeasonEntities();
+        this.configurationLoader.deleteAllLeagueEntities();
+       
+        // import new season - only 1 active item expected
+        if (seasonIdSeasonMap.containsKey(item.getSelectedSeasonId())) {
+            SeasonItem seasonItem = seasonIdSeasonMap.get(item.getSelectedSeasonId());
+            SeasonDetail detail = new SeasonDetail();
+            detail.setSeasonId(seasonItem.getSeasonId());
+            detail.setSeasonName(seasonItem.getSeasonName());
+            detail.setIsActive(true);
+            this.configurationLoader.createSeasonEntityItem(detail);
+        }
+       
+        // import new leagues
+        for (String leagueId : item.getLeagueItemIds()) {
+            if (leagueIdLeagueMap.containsKey(leagueId)) {
+                LeagueItem league = leagueIdLeagueMap.get(leagueId);                
+                LeagueDetail leagueDetail = new LeagueDetail(); 
+                leagueDetail.setLeagueId(league.getLeagueId());
+                leagueDetail.setLeagueName(league.getLeagueName());
+                leagueDetail.setLeagueShortName(league.getLeagueShortName());
+                this.configurationLoader.createLeagueEntityItem(leagueDetail);
+             }
+        }
+    }
+    
+    private ConfigurationItem createConfigFromExcel() {
+        
+        ConfigurationItem configItem = new ConfigurationItem();
+        try (InputStream excelFileToRead = new FileInputStream(CONFIG_FILE)) {              
+            XSSFWorkbook wb = new XSSFWorkbook(excelFileToRead);
+            XSSFSheet sheet= wb.getSheet("Saisons");
+            XSSFRow row; 
+            Iterator rows = sheet.rowIterator();
+            rows.next(); // skip header row
+            while (rows.hasNext()) {
+                row=(XSSFRow) rows.next();
+                String seasonId = row.getCell(0).getStringCellValue();
+                String seasonName = row.getCell(1).getStringCellValue();  
+                SeasonItem item = new SeasonItem();
+                item.setSeasonId(Integer.parseInt(seasonId));
+                item.setSeasonName(seasonName);
+                configItem.addSeasonItem(item);
+            }   
+            sheet= wb.getSheet("Liga");
+            rows = sheet.rowIterator();
+            rows.next(); // skip header row
+            while (rows.hasNext()) {
+                row=(XSSFRow) rows.next();
+                String leagueId = row.getCell(0).getStringCellValue();
+                String leagueName = row.getCell(1).getStringCellValue();  
+                LeagueItem item = new LeagueItem();
+                item.setLeagueId(Integer.parseInt(leagueId));
+                item.setLeagueName(leagueName);
+                String[] parts = leagueName.split(" ");
+                String shortName = "";
+                for (String part : parts) {
+                    if (shortNameMap.containsKey(part)) {
+                        shortName = shortNameMap.get(part);
+                    }
+                }
+                item.setLeagueShortName(shortName);
+                configItem.addLeagueItem(item);
+            }  
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ConfigurationDataService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return configItem;
     }
 }

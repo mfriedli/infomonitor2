@@ -1,0 +1,15 @@
+<div ng-controller="ImportConfigFileCtrl as ImportConfigFileCtrl">
+
+    <form enctype="multipart/form-data" method="POST" action="saveConfigFormData">
+        <div class="form-group add-form">
+            <span>IHS Excel Konfigurations File: <a href="http://service.ih-s.ch/xml/tabelle.aspx" target="_blank">Download</a></span>
+            
+            <p></p>
+            <input type="file" id="inputFileId" name="fileToBeUploaded">
+            <label for="inputFileId">Excel File mit IHS Konfigurationen</label>
+            <p></p>
+
+            <button style="margin-top: 20px" type="submit" class="btn btn-default">Speichern</button>
+        </div>  
+    </form>  
+</div>

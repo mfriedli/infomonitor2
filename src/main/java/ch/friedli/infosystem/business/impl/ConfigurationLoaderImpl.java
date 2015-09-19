@@ -40,7 +40,18 @@ public class ConfigurationLoaderImpl { //implements ConfigurationLoaderRemote {
         Query query = this.em.createNamedQuery("Season.deleteById").setParameter("id", itemId);
         return query.executeUpdate();
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public int deleteAllSeasonEntities() {
+        Query query = this.em.createNamedQuery("Season.deleteAll");
+        return query.executeUpdate();
+    }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public int deleteAllLeagueEntities() {
+        Query query = this.em.createNamedQuery("League.deleteAll");
+        return query.executeUpdate();
+    }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateSeasonEntityItem(SeasonDetail detail) {

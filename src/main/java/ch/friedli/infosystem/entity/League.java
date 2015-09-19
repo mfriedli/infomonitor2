@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 @Table(name = "LEAGUE")
 @NamedQueries({
     @NamedQuery(name = "League.deleteById", query ="DELETE FROM League l WHERE l.id = :id"),
+    @NamedQuery(name = "League.deleteAll", query ="DELETE FROM League"),
     @NamedQuery(name = "League.findAll", query = "SELECT l FROM League l"),
     @NamedQuery(name = "League.findById", query = "SELECT l FROM League l WHERE l.id = :id"),
     @NamedQuery(name = "League.findByLeagueId", query = "SELECT l FROM League l WHERE l.leagueId = :leagueId"),

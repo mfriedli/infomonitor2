@@ -59,9 +59,9 @@ public class BreakingNewsEndpoint {
      * all connected clients.
      * 
      */
-    @Schedule(persistent = false, second = "*", minute = "*/30", hour = "*", info = "Locker Room Event publisher")
-    //@Schedule(persistent = false, second = "*/30", minute = "*", hour = "*", info = "Locker Room Event publisher")
-    public void onLockerRoomEvent() {
+    //@Schedule(persistent = false, second = "*", minute = "*/30", hour = "*", info = "Breaking News Event publisher")
+    @Schedule(persistent = false, second = "*/30", minute = "*", hour = "*", info = "Locker Room Event publisher")
+    public void onBreakingNewsEvent() {
         for (Session peer : this.peers) {
             try {
                 BreakingNewsDetail detail = this.breakingNewsLoader.loadBreakingNews();

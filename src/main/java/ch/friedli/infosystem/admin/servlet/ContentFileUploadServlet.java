@@ -17,14 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-/**
- *
- * @author mfrie_000
- */
+
 @WebServlet(name = "ContentFileUploadServlet", urlPatterns = {"/app/saveFormData"})
 @MultipartConfig
-//@Stateless
-//@Path("/")
 public class ContentFileUploadServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ContentFileUploadServlet.class.getName());
@@ -32,79 +27,6 @@ public class ContentFileUploadServlet extends HttpServlet {
     @EJB
     ContentLoaderImpl contentLoader;
 
-//    @POST
-//    @Path("saveFormData")
-//    //@Consumes({"application/json", "application/x-www-form-urlencoded"})
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//   // @Produces("text/html")
-//    public void createContentEntry(
-////            @FormDataParam("fileType") String showInterval,
-////            @FormDataParam("fileType") String fileType,
-////            @FormDataParam("width") String width,
-////            @FormDataParam("height") String height,
-////            @FormDataParam("isActive") String isActive,
-////            @FormDataParam("selectedWebsiteUrl") String externalWebUrl,
-//            @FormDataParam("model") String[] model,
-//            @FormDataParam("file") InputStream inputfile,
-//            @FormDataParam("file") FormDataContentDisposition fileDisposition
-//            ) {
-//        ContentDetail detail = new ContentDetail();
-//        // Store the message
-////        if (showInterval != null && !showInterval.isEmpty()) {
-////            detail.setShowInterval(Integer.parseInt(showInterval));
-////        } else {
-////            detail.setShowInterval(10000); // default is 10 s
-////        }
-////        if (fileType != null && !fileType.isEmpty()) {
-////            detail.setContentType(fileType);
-////        }
-////        if (width != null && !width.isEmpty()) {
-////            detail.setWidth(Integer.parseInt(width));
-////        }
-////        if (height != null && !height.isEmpty()) {
-////            detail.setHeight(Integer.parseInt(height));
-////        }
-////        if (isActive != null && !isActive.isEmpty() && isActive.equals("true")) {
-////            detail.setIsActive(true);
-////        }
-//
-////        if (externalWebUrl != null && !externalWebUrl.isEmpty()) {
-////            detail.setExternalWebUrl(externalWebUrl);
-////        // file to upload if not an external web url
-////        } else {
-////            try {
-////                for (Part part : request.getParts()) {
-////                    String param = part.getName();
-////                    LOGGER.log(Level.FINE, param);
-////                    if ("uploadFile".equals(param)) {
-////                        InputStream is = request.getPart(param).getInputStream();
-////                        int i = is.available();
-////                        byte[] b = new byte[i];
-////                        is.read(b);
-////                        LOGGER.log(Level.FINE, "Length : " + b.length);
-////                        String fileName = getFileName(part);
-////                        LOGGER.log(Level.FINE, "File name : " + fileName);
-////                        File directory = new File(CONTENT_FILE_DIR);
-////                        
-////                        if (!directory.exists()) {
-////                            directory.mkdirs();
-////                            directory.setWritable(true);
-////                            directory.setReadable(true);
-////                        }
-////                        FileOutputStream os = new FileOutputStream(CONTENT_FILE_DIR + fileName);
-////                        os.write(b);
-////                        is.close();
-////                        detail.setContentUri(fileName);
-////                    }
-////                }
-////            } catch (IOException ex) {
-////                Logger.getLogger(ContentFileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-////            } catch (ServletException ex) {
-////                Logger.getLogger(ContentFileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-////            }
-////        }
-//        this.contentLoader.createContentEntityItem(detail);
-//    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

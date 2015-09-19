@@ -7,14 +7,7 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
             var thisCtrlCtx = this;
             this.externalUrlDisabled = true;
             this.fileChooserDisabled = true;
-          //  this.fileToBeUploaded;
-         /*   this.formData = {
-                'isActive':true,
-                'width':1300, 
-                'height':900,
-                'interval' : 10000
-            };
-*/
+          
             this.items = [
                 {name: 'Externe Webseite', value: 'WEBPAGE'},
                 {name: 'Bild (gif,png,jpg)', value: 'PICTURE'},
@@ -441,6 +434,56 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/seasonsoverview');                   
                 });
             };
+        })
+        .controller('UploadConfigCtrl', function UploadConfigCtrl($scope, $http, $routeParams, $location) {
+            var thisCtrlCtx = this;
+            this.seasonId;
+            this.leagueItems=[];
+            this.configuration; //{seasons:[{seasonId:1,seasonName:"neee"}],leagues:[{leagueId:1,leagueName:"neee"}]};
+            loadConfig(); // init
+            
+            
+            function loadConfig() {
+                $http({
+                    method: 'GET',
+                    url: '/InfoMonitor-web/rest/configuration'
+                })
+                .success(function(serviceResponse) {
+                   thisCtrlCtx.configuration = angular.fromJson(serviceResponse);
+                })
+                .error(function(data, status) {
+                    console.log('Error when calling rest service /getConfiguration');
+                    console.log(data);
+                    console.log(status);
+                    $location.path('/uploadconfig');                   
+                });
+            };
+                        
+            $scope.saveActualConfiguration = function() { 
+                var leagueIds = [];
+                for (var i=0; i<thisCtrlCtx.leagueItems.length;i++) {
+                    leagueIds.push(thisCtrlCtx.leagueItems[i]);
+                }
+                var configurationItem = {"selectedSeasonId":thisCtrlCtx.seasonId, "leagueItemIds":leagueIds};
+                $http({
+                    method: 'POST',
+                    url: '/InfoMonitor-web/rest/importConfiguration',                   
+                    data: configurationItem, // pass in data as strings json
+                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                })
+                .success(function(data) {
+                    $location.path('/seasonsoverview');                   
+                })
+                .error(function(data, status) {
+                    console.log('Error when calling rest service /importConfiguration');
+                    console.log(data);
+                    console.log(status);
+                    $location.path('/uploadconfig');                   
+                });
+            };    
+        })
+        .controller('ImportConfigFileCtrl', function ImportConfigFileCtrl($scope, $http, $routeParams, $location) {
+            var thisCtrlCtx = this;           
         })
         .controller('EditSeasonCtrl', function EditSeasonCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
