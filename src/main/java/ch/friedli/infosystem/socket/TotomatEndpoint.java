@@ -64,7 +64,7 @@ public class TotomatEndpoint {
      * 
      */
     @Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/2", hour = "8-22", info = "Totomat Event publisher")
-    public void onLockerRoomEvent() {    
+    public void onTotomatEvent() {    
        for (Session peer : this.peers) {
             try {
                 List<TotomatDetail> details = this.totomatLoader.loadTotomatDetails();

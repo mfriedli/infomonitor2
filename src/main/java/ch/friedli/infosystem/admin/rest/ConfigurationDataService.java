@@ -290,17 +290,23 @@ public class ConfigurationDataService {
             while (rows.hasNext()) {
                 row=(XSSFRow) rows.next();
                 String leagueId = row.getCell(0).getStringCellValue();
-                String leagueName = row.getCell(1).getStringCellValue();  
+                String leagueName = row.getCell(1).getStringCellValue();
+                // check if IHS Schnittstellen Excel contains league short name
+                // otherwise to hard-coded best guess mapping
+                String shortName = "";
+                if (row.getCell(2) != null) {
+                    shortName = row.getCell(2).getStringCellValue(); 
+                } else {                    
+                    String[] parts = leagueName.split(" ");
+                    for (String part : parts) {
+                        if (shortNameMap.containsKey(part)) {
+                            shortName = shortNameMap.get(part);
+                        }
+                    }                
+                }
                 LeagueItem item = new LeagueItem();
                 item.setLeagueId(Integer.parseInt(leagueId));
-                item.setLeagueName(leagueName);
-                String[] parts = leagueName.split(" ");
-                String shortName = "";
-                for (String part : parts) {
-                    if (shortNameMap.containsKey(part)) {
-                        shortName = shortNameMap.get(part);
-                    }
-                }
+                item.setLeagueName(leagueName);                
                 item.setLeagueShortName(shortName);
                 configItem.addLeagueItem(item);
             }  
