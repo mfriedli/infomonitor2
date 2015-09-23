@@ -7,3 +7,20 @@
     height: 100%;
     vertical-align: middle;
 }
+
+.content-repeat-animation {
+    position:relative;
+}
+
+
+.content-repeat-animation.ng-leave {
+    opacity:0;
+    -webkit-animation: fadeOut 2.5s;
+    animation: fadeOut 2.5s;
+}
+.content-repeat-animation.ng-enter {
+    opacity:0;
+    -webkit-animation: fadeIn 3.5s;
+    animation: fadeIn 3.5s;
+}
+

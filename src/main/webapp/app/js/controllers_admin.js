@@ -2,8 +2,8 @@
 
 
 /* Controllers */
-angular.module('infoMonitorAdmin.controllers_admin', []).
-        controller('AddCtrl', function AddCtrl($scope, $http, $location) {
+angular.module('infoMonitorAdmin.controllers_admin', [])
+        .controller('AddCtrl', ['$scope', '$http', '$location', function AddCtrl($scope, $http, $location) {
             var thisCtrlCtx = this;
             this.externalUrlDisabled = true;
             this.fileChooserDisabled = true;
@@ -60,8 +60,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     thisCtrlCtx.fileChooserDisabled = false;
                 }
             };
-        })
-        .controller('OverviewCtrl', function OverviewCtrl($scope, $location, $http) {
+        }])
+        .controller('OverviewCtrl',['$scope', '$location', '$http', function OverviewCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.contentItems = [];
             loadAllContentItems(); // init
@@ -106,8 +106,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                 
             };
             
-        })
-        .controller('EditCtrl', function EditCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('EditCtrl',['$scope', '$http', '$routeParams', '$location', function EditCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
             this.contentItem;
                         
@@ -151,13 +151,13 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/overview');                   
                 });
             };
-        })
-        .controller('StartCtrl', function StartCtrl($scope, $location) {
+        }])
+        .controller('StartCtrl',['$scope', '$location', function StartCtrl($scope, $location) {
             $scope.nextPage = function() {
                 $location.path('/start');
             };
-        })
-        .controller('NewsOverviewCtrl', function NewsOverviewCtrl($scope, $location, $http) {
+        }])
+        .controller('NewsOverviewCtrl',['$scope', '$location','$http', function NewsOverviewCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.newsItems = [];
             loadAllNewsItems(); // init
@@ -200,8 +200,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/newsoverview');                  
                 });                
             };            
-        })
-        .controller('AddNewsCtrl', function AddNewsCtrl($scope, $http, $location) {
+        }])
+        .controller('AddNewsCtrl', ['$scope', '$location','$http', function AddNewsCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.newsItem;                       
             
@@ -222,8 +222,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/newsoverview');                   
                 });
             };
-        })
-        .controller('EditNewsCtrl', function EditNewsCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('EditNewsCtrl', ['$scope', '$http', '$routeParams', '$location', function EditNewsCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
             this.newsItem;
                                     
@@ -259,14 +259,14 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/newsoverview');                   
                 });
             };
-        })
-        .controller('HeaderCtrl', function HeaderCtrl($scope, $location) {
+        }])
+        .controller('HeaderCtrl', ['$scope', '$location', function HeaderCtrl($scope, $location) {
             var thisCtrlCtx = this;
             $scope.isActive = function(viewLocation) {
                 return viewLocation === $location.path();
             };
-        })
-        .controller('LeaguesOverviewCtrl', function LeaguesOverviewCtrl($scope, $location, $http) {
+        }])
+        .controller('LeaguesOverviewCtrl', ['$scope', '$location', '$http', function LeaguesOverviewCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.leagueItems = [];
             loadAllLeagueItems(); // init
@@ -309,8 +309,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/leaguesoverview');                  
                 });                
             };            
-        })
-        .controller('AddLeagueCtrl', function AddLeagueCtrl($scope, $http, $location) {
+        }])
+        .controller('AddLeagueCtrl', ['$scope', '$location', '$http', function AddLeagueCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.leagueItem;                       
             
@@ -331,8 +331,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/leaguesoverview');                   
                 });
             };
-        })
-        .controller('EditLeagueCtrl', function EditLeagueCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('EditLeagueCtrl', ['$scope', '$http', '$routeParams', '$location', function EditLeagueCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
             this.leagueItem;
                                     
@@ -368,8 +368,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/leaguesoverview');                   
                 });
             };
-        })       
-        .controller('SeasonsOverviewCtrl', function SeasonsOverviewCtrl($scope, $location, $http) {
+        }])       
+        .controller('SeasonsOverviewCtrl', ['$scope', '$location', '$http', function SeasonsOverviewCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.seasonItems = [];
             loadAllSeasonItems(); // init
@@ -412,8 +412,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/seasonsoverview');                  
                 });                
             };            
-        })
-        .controller('AddSeasonCtrl', function AddSeasonCtrl($scope, $http, $location) {
+        }])
+        .controller('AddSeasonCtrl', ['$scope', '$location', '$http', function AddSeasonCtrl($scope, $location, $http) {
             var thisCtrlCtx = this;
             this.seasonItem;                       
             
@@ -434,8 +434,8 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/seasonsoverview');                   
                 });
             };
-        })
-        .controller('UploadConfigCtrl', function UploadConfigCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('UploadConfigCtrl', ['$scope', '$http', '$routeParams', '$location', function UploadConfigCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
             this.seasonId;
             this.leagueItems=[];
@@ -481,11 +481,11 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/uploadconfig');                   
                 });
             };    
-        })
-        .controller('ImportConfigFileCtrl', function ImportConfigFileCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('ImportConfigFileCtrl', ['$scope', '$http', '$routeParams', '$location', function ImportConfigFileCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;           
-        })
-        .controller('EditSeasonCtrl', function EditSeasonCtrl($scope, $http, $routeParams, $location) {
+        }])
+        .controller('EditSeasonCtrl', ['$scope', '$http', '$routeParams', '$location', function EditSeasonCtrl($scope, $http, $routeParams, $location) {
             var thisCtrlCtx = this;
             this.seasonItem;
                                     
@@ -521,6 +521,6 @@ angular.module('infoMonitorAdmin.controllers_admin', []).
                     $location.path('/seasonsoverview');                   
                 });
             };
-        });
+        }]);
 
 

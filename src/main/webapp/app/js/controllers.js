@@ -1,10 +1,10 @@
 'use strict';
 
 /* Controllers */
-var infoMonitorApp = angular.module('infoMonitorApp', []);
+var infoMonitorApp = angular.module('infoMonitorApp', ['ngAnimate']);
 
 
-infoMonitorApp.controller('LockerRoomCtrl', function LockerRoomCtrl($scope) {
+infoMonitorApp.controller('LockerRoomCtrl', ['$scope', function LockerRoomCtrl($scope) {
     var thisCtrlCtx = this;
     this.date = "";
     this.lockerrooms = [];
@@ -35,9 +35,9 @@ infoMonitorApp.controller('LockerRoomCtrl', function LockerRoomCtrl($scope) {
     $scope.$on("$destroy", function() {
         ws.close();
     });
-});
+}]);
 
-infoMonitorApp.controller('LatestResultsCtrl', function LatestResultsCtrl($scope) {
+infoMonitorApp.controller('LatestResultsCtrl', ['$scope','$timeout', function LatestResultsCtrl($scope,$timeout) {
     var thisCtrlCtx = this;
     this.results = [];
     this.connectionstate;
@@ -50,22 +50,32 @@ infoMonitorApp.controller('LatestResultsCtrl', function LatestResultsCtrl($scope
         thisCtrlCtx.connectionstate = "Failed to open a connection";
     };
     ws.onmessage = function(message) {
-        applyToCtrlScope(message);
+        $scope.$apply(function() {
+            thisCtrlCtx.results=[];                 
+        });
+       
+        $timeout(function() {
+            $scope.$apply(function() {
+                thisCtrlCtx.results = angular.fromJson(message.data);  
+            });
+        }, 6000);
+        //applyToCtrlScope(message);
     };
 
-    function applyToCtrlScope(message) {
+    function applyToCtrlScope(message) {    
+        
         $scope.$apply(function() {
-            thisCtrlCtx.results = angular.fromJson(message.data);
+            thisCtrlCtx.results = angular.fromJson(message.data);  
         });
     }
 
     $scope.$on("$destroy", function() {
         ws.close();
     });
-});
+}]);
 
 
-infoMonitorApp.controller('TotomatCtrl', function TotomatCtrl($scope) {
+infoMonitorApp.controller('TotomatCtrl', ['$scope', function TotomatCtrl($scope) {
     var thisCtrlCtx = this;
     this.totomatResults = [];
     this.connectionstate;
@@ -91,9 +101,9 @@ infoMonitorApp.controller('TotomatCtrl', function TotomatCtrl($scope) {
     $scope.$on("$destroy", function() {
         ws.close();
     });
-});
+}]);
 
-infoMonitorApp.controller('BreakingNewsCtrl', function BreakingNewsCtrl($scope) {
+infoMonitorApp.controller('BreakingNewsCtrl', ['$scope', function BreakingNewsCtrl($scope) {
     var thisCtrlCtx = this;
     this.breakingNews = "Info: Bitte f&uuml;r die Trainings Garderoben links oder rechts benutzen.";
     this.connectionstate;
@@ -125,9 +135,9 @@ infoMonitorApp.controller('BreakingNewsCtrl', function BreakingNewsCtrl($scope) 
     $scope.$on("$destroy", function() {
         ws.close();
     });
-});
+}]);
 
-infoMonitorApp.controller('ContentCtrl', function ContentCtrl($scope,$http,$sce) {
+infoMonitorApp.controller('ContentCtrl', ['$scope', '$http', '$sce', function ContentCtrl($scope,$http,$sce) {
     var thisCtrlCtx = this;
     this.content;
     this.connectionstate;
@@ -189,5 +199,5 @@ infoMonitorApp.controller('ContentCtrl', function ContentCtrl($scope,$http,$sce)
     $scope.$on("$destroy", function() {
         ws.close();
     });
-});
+}]);
 

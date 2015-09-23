@@ -1,3 +1,33 @@
-.latestresult-table {
-    border: 1px;
+.results-title-icon {
+    margin-right: 15px;
+    margin-left: 4px;
 }
+
+.repeat-animation {
+    position:relative;
+}
+
+.repeat-animation.ng-enter-stagger,
+.repeat-animation.ng-leave-stagger,
+.repeat-animation.ng-move-stagger {
+    /* notice how we're using animation instead of transition here */
+    -webkit-animation-delay:0.2s;
+    animation-delay:0.2s;
+
+    /* yes we still need to do this too */
+    -webkit-animation-duration:0.2;
+    animation-duration:0.2;
+}
+
+.repeat-animation.ng-move,
+.repeat-animation.ng-enter {
+    opacity:0;
+    -webkit-animation: zoomInDown 0.5s;
+    animation:zoomInDown 0.5s;
+}
+
+.repeat-animation.ng-leave {
+    -webkit-animation: zoomOutDown 0.5s;
+    animation:zoomOutDown 0.5s;
+}
+
