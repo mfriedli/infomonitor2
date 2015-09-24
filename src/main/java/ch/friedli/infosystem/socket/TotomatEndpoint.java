@@ -69,7 +69,7 @@ public class TotomatEndpoint {
             try {
                 List<TotomatDetail> details = this.totomatLoader.loadTotomatDetails();
                 peer.getBasicRemote().sendObject(details);
-            } catch (IOException | EncodeException ex) {
+            } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }

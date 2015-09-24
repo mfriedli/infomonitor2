@@ -58,7 +58,7 @@ infoMonitorApp.controller('LatestResultsCtrl', ['$scope','$timeout', function La
             $scope.$apply(function() {
                 thisCtrlCtx.results = angular.fromJson(message.data);  
             });
-        }, 6000);
+        }, 500);
         //applyToCtrlScope(message);
     };
 
@@ -136,68 +136,3 @@ infoMonitorApp.controller('BreakingNewsCtrl', ['$scope', function BreakingNewsCt
         ws.close();
     });
 }]);
-
-infoMonitorApp.controller('ContentCtrl', ['$scope', '$http', '$sce', function ContentCtrl($scope,$http,$sce) {
-    var thisCtrlCtx = this;
-    this.content;
-    this.connectionstate;
-    this.img;
-    this.showImage = false;
-    this.showWebpage = false;
-    this.showVideo = false;
-    this.contentUrl;
-    
-    var ws = new WebSocket("ws://localhost:8080/InfoMonitor-web/contentendpoint");
-    ws.binaryType = 'arraybuffer';
-    ws.onopen = function() {
-        thisCtrlCtx.connectionstate = "Succeeded to open a connection";
-    };
-    ws.onerror = function() {
-        thisCtrlCtx.connectionstate = "Failed to open a connection";
-    };
-    ws.onmessage = function(message) {
-        applyToCtrlScope(message);
-    };
-    ws.onclose = function() {
-        ws.close();
-    };
-
-    function loadImage() {
-        $http({
-            method: 'POST',
-            url: 'http://localhost:8080/InfoMonitor-web/app/imageDownload',
-            headers: {'Content-Type': 'application/json'},
-            data: thisCtrlCtx.content.contentUri
-        }).success(function(data)
-        {
-            thisCtrlCtx.img = data;            
-        });
-    }
-    function applyToCtrlScope(message) {
-        $scope.$apply(function() {
-            thisCtrlCtx.showImage = false; 
-            thisCtrlCtx.showWebpage = false;
-            thisCtrlCtx.showVideo = false;
-            thisCtrlCtx.content = angular.fromJson(message.data);
-            if (thisCtrlCtx.content.contentType === 'PICTURE') {
-                thisCtrlCtx.showImage = true;
-                var baseImgUrl = "http://localhost:8080/InfoMonitor-web/content/";
-                thisCtrlCtx.contentUrl = baseImgUrl.concat(thisCtrlCtx.content.contentUri);
-            }
-            else if (thisCtrlCtx.content.contentType === 'WEBPAGE') {
-                thisCtrlCtx.showWebpage = true;
-                thisCtrlCtx.contentUrl = $sce.trustAsResourceUrl(thisCtrlCtx.content.externalWebUrl);
-            }
-            else if (thisCtrlCtx.content.contentType === 'VIDEO') {
-                thisCtrlCtx.showVideo = true;
-                var baseImgUrl = "http://localhost:8080/InfoMonitor-web/content/";
-                thisCtrlCtx.contentUrl = baseImgUrl.concat(thisCtrlCtx.content.contentUri);
-            }
-        });
-    }
-
-    $scope.$on("$destroy", function() {
-        ws.close();
-    });
-}]);
-

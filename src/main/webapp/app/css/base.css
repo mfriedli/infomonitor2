@@ -29,7 +29,7 @@ body {
     z-index: 2;
     position:absolute;
     left: 5px;
-    top: 315px;
+    top: 335px;
     width: 605px;
     height: 640px;
     margin-top: 15px;
@@ -82,13 +82,11 @@ body {
   from { opacity: 1.0; }
   to { opacity: 0.0; }
 }
+
 .css3-blink {
-  -webkit-animation-name: blinker;  
-  animation-name: blinker;
-  -webkit-animation-iteration-count: ifinite;
-  animation-iteration-count: ifinite;
-  -webkit-animation-timing-function: cubic-bezier(1.0,1.0,1.0,1.0);
-  animation-timing-function: cubic-bezier(1.0,1.0,1.0,1.0);
-  -webkit-animation-duration: 8s; 
-  animation-duration: 8s;
-}	
+  animation: blinker 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+}
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

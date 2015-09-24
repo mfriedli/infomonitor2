@@ -1,16 +1,11 @@
 .results-title-icon {
     margin-right: 15px;
-    margin-left: 4px;
+    margin-left: 2px;
 }
 
-.repeat-animation {
-    position:relative;
-}
 
 .repeat-animation.ng-enter-stagger,
-.repeat-animation.ng-leave-stagger,
-.repeat-animation.ng-move-stagger {
-    /* notice how we're using animation instead of transition here */
+.repeat-animation.ng-leave-stagger {
     -webkit-animation-delay:0.2s;
     animation-delay:0.2s;
 
@@ -22,12 +17,12 @@
 .repeat-animation.ng-move,
 .repeat-animation.ng-enter {
     opacity:0;
-    -webkit-animation: zoomInDown 0.5s;
-    animation:zoomInDown 0.5s;
+    -webkit-animation: fadeInDown 0.5s;
+    animation:fadeInDown 0.5s;
 }
 
-.repeat-animation.ng-leave {
-    -webkit-animation: zoomOutDown 0.5s;
-    animation:zoomOutDown 0.5s;
-}
+/*.repeat-animation.ng-leave {
+    -webkit-animation: fadeOutDown 0.5s;
+    animation:fadeOutDown 0.5s;
+}*/
 

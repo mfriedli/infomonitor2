@@ -68,7 +68,7 @@ public class BreakingNewsEndpoint {
                 if (detail != null) {
                      peer.getBasicRemote().sendObject(detail);
                 }
-            } catch (IOException | EncodeException ex) {
+            } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }

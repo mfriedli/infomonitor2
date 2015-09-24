@@ -8,19 +8,62 @@
     vertical-align: middle;
 }
 
-.content-repeat-animation {
-    position:relative;
-}
+
+/*.repeat-content-animation.ng-enter {*/
+    /*opacity:0;*/
+    /*-webkit-animation: rollIn 1.5s;*/
+    /*animation:rollIn 1.5s;*/
+/*}*/
+
+/*.repeat-content-animation.ng-leave {*/
+    /*-webkit-animation: rollOut 1.5s;*/
+    /*animation:rollOut 1.5s;*/
+/*}*/
 
 
-.content-repeat-animation.ng-leave {
+
+
+/*.repeat-content-animation.ng-enter {*/
+    /*opacity:0;*/
+    /*-webkit-animation: fadeInLeft 2s;*/
+    /*animation:fadeInLeft 2s;*/
+/*}*/
+
+/*.repeat-content-animation.ng-leave {*/
+    /*-webkit-animation: fadeOutRight 1.5s;*/
+    /*animation:fadeOutRight 1.5s;*/
+/*}*/
+
+
+/*.repeat-content-animation.ng-enter {*/
+    /*opacity:0;*/
+    /*-webkit-animation: bounceInLeft 2s;*/
+    /*animation:bounceInLeft 2s;*/
+/*}*/
+
+/*.repeat-content-animation.ng-leave {*/
+    /*-webkit-animation: bounceOutRight 1.5s;*/
+    /*animation:bounceOutRight 1.5s;*/
+/*}*/
+
+/*.repeat-content-animation.ng-enter {
     opacity:0;
-    -webkit-animation: fadeOut 2.5s;
-    animation: fadeOut 2.5s;
+    -webkit-animation: flipInY 2s;
+    animation:flipInY 2s;
 }
-.content-repeat-animation.ng-enter {
-    opacity:0;
-    -webkit-animation: fadeIn 3.5s;
-    animation: fadeIn 3.5s;
-}
+.repeat-content-animation.ng-leave {
+    -webkit-animation: fadeOut 1s;
+    animation:fadeOut 1s;
+}*/
 
+
+
+.repeat-content-animation.ng-enter {
+    opacity:0.8;
+    -webkit-animation: fadeIn 2s;
+    animation: fadeIn 2s;
+}
+.repeat-content-animation.ng-leave {
+    -webkit-animation: fadeOut 2s;
+    animation: fadeOut 2s;
+}
