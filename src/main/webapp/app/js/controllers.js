@@ -4,38 +4,6 @@
 var infoMonitorApp = angular.module('infoMonitorApp', ['ngAnimate']);
 
 
-infoMonitorApp.controller('LockerRoomCtrl', ['$scope', function LockerRoomCtrl($scope) {
-    var thisCtrlCtx = this;
-    this.date = "";
-    this.lockerrooms = [];
-    this.connectionstate;
-    
-    var ws = new WebSocket("ws://localhost:8080/InfoMonitor-web/lockerroomendpoint");
-
-    ws.onopen = function() {
-        thisCtrlCtx.connectionstate = "Succeeded to open a connection";
-    };
-    ws.onerror = function() {
-        thisCtrlCtx.connectionstate = "Failed to open a connection";
-    };
-    ws.onmessage = function(message) {
-        applyToCtrlScope(message);
-    };
-
-    function applyToCtrlScope(message) {
-        $scope.$apply(function() {
-            thisCtrlCtx.lockerrooms = angular.fromJson(message.data);
-            if (!angular.isUndefined(thisCtrlCtx.lockerrooms[0]) && 
-                    !angular.isUndefined(thisCtrlCtx.lockerrooms[0].Datum)) {
-               thisCtrlCtx.date = thisCtrlCtx.lockerrooms[0].Datum;
-            }
-        });
-    }
-
-    $scope.$on("$destroy", function() {
-        ws.close();
-    });
-}]);
 
 infoMonitorApp.controller('LatestResultsCtrl', ['$scope','$timeout', function LatestResultsCtrl($scope,$timeout) {
     var thisCtrlCtx = this;

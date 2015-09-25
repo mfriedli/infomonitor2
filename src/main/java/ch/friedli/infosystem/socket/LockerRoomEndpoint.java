@@ -62,8 +62,8 @@ public class LockerRoomEndpoint {
      * all connected clients.
      * 
      */
-    @Schedule(persistent = false, second = "*", minute = "*/32", hour = "*", info = "Locker Room Event publisher")
-    //@Schedule(persistent = false, second = "*/13", minute = "*", hour = "*", info = "Locker Room Event publisher")
+    //@Schedule(persistent = false, second = "*", minute = "*/32", hour = "*", info = "Locker Room Event publisher")
+    @Schedule(persistent = false, second = "*/15", minute = "*", hour = "*", info = "Locker Room Event publisher")
     public void onLockerRoomEvent() {    
         for (Session peer : this.peers) {
             try {

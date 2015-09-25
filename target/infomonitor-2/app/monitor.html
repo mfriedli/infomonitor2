@@ -27,12 +27,12 @@
         <div id="lockerrooms" ng-controller="LockerRoomCtrl as lockerRoomCtrl">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading panel-heading-monitor">
+                <div class="panel-heading" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#c2c2c2));">
                     <span class="lockerroom-title-icon"><img src="img/kabine.jpg" width="32px" height="32px"></span>
                     <span>Einteilung f&uuml;r die n&auml;chsten Spiele <span ng-show="!!lockerRoomCtrl.date">-</span> <b>{{lockerRoomCtrl.date}}</b></span>
                 </div>
                 <!-- Table -->
-                <table ng-table class="table table-striped">
+                <table ng-table class="table table-striped" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#d6d6d6));">
                     <thead>
                         <tr>
                             <th style="vertical-align: middle; text-align: center;">Kabine</th>
@@ -41,8 +41,8 @@
                             <th>Liga</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="lockerroom in lockerRoomCtrl.lockerrooms">
-                        <td data-title="'Nr'" style="vertical-align: middle; text-align: center;"><img ng-src="img/locker{{lockerroom.Garderobe}}.png" width="160px" height="20px"></td>
+                    <tr ng-repeat="lockerroom in lockerRoomCtrl.lockerrooms" class="repeat-animation-locker">
+                        <td data-title="'Nr'" style="vertical-align: middle; text-align: center;"><img ng-src="img/locker{{lockerroom.Garderobe}}.png" width="200px" height="27px"></td>
                         <td data-title="'Zeit'" style="vertical-align: middle; text-align: center;">{{lockerroom.Zeit}}</td>
                         <td data-title="'Team'">{{lockerroom.Team}}</td>
                         <td data-title="'Liga'">{{lockerroom.Liga}}</td>
@@ -54,13 +54,13 @@
         <div id="lastresults" ng-controller="LatestResultsCtrl as latestResultsCtrl">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading panel-heading-monitor">
+                <div class="panel-heading" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#c2c2c2));">
                     <span class="results-title-icon"><img src="img/ihs.png" width="60px" height="30px"></span>
                     <span>Inline Hockey Schweiz - Aktuelle Resultate</span>
                 </div>
                 <!-- Result List -->
                 <!-- Table -->
-                <table ng-table class="table table-striped">
+                <table ng-table class="table table-striped" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#d6d6d6));">
                     <thead>
                         <tr>
                             <th style="vertical-align: middle; text-align: center;">Liga</th>
@@ -148,6 +148,7 @@
         <script type="text/javascript" src="js/services.js"></script>
         <script type="text/javascript" src="js/controllers.js"></script>
         <script type="text/javascript" src="js/content.js"></script>
+        <script type="text/javascript" src="js/lockerroom.js"></script>
         <script type="text/javascript" src="js/filters.js"></script>
         <script type="text/javascript" src="js/directives.js"></script>
         <script type="text/javascript" src="js/websockets.js"></script> 
