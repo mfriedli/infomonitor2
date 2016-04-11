@@ -63,7 +63,8 @@ public class TotomatEndpoint {
      * all connected clients.
      * 
      */
-    @Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/2", hour = "8-22", info = "Totomat Event publisher")
+    // disabled for the time being
+    //@Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/6", hour = "8-23", info = "Totomat Event publisher")
     public void onTotomatEvent() {    
        for (Session peer : this.peers) {
             try {

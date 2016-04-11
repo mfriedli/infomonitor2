@@ -41,7 +41,7 @@
                             <th>Liga</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="lockerroom in lockerRoomCtrl.lockerrooms"> <!--class="repeat-animation-locker"> -->
+                    <tr ng-repeat="lockerroom in lockerRoomCtrl.lockerrooms"> 
                         <td data-title="'Nr'" style="vertical-align: middle; text-align: center;"><img ng-src="img/locker{{lockerroom.Garderobe}}.png" width="200px" height="25px"></td>
                         <td data-title="'Zeit'" style="vertical-align: middle; text-align: center;">{{lockerroom.Zeit}}</td>
                         <td data-title="'Team'">{{lockerroom.Team}}</td>
@@ -60,7 +60,7 @@
                 </div>
                 <!-- Result List -->
                 <!-- Table -->
-                <table ng-table class="table table-striped" style="height: 547px;background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#d6d6d6));">
+                <table ng-table class="table table-striped" style="font-size:13.5px;background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#d6d6d6));">
                     <thead>
                         <tr>
                             <th style="vertical-align: middle; text-align: center;">Liga</th>
@@ -69,7 +69,7 @@
                             <th>Resultat</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="result in latestResultsCtrl.results"> <!-- class="repeat-animation"> -->
+                    <tr ng-repeat="result in latestResultsCtrl.results"> 
                         <td data-title="'Liga'" style="vertical-align: middle; text-align: center;">{{result.Liga}}</td>
                         <td data-title="'Heim'">{{result.Heim}}</td>
                         <td data-title="'Gast'">{{result.Gast}}</td>
@@ -84,19 +84,19 @@
             <div style="text-align: center;">  
                 <!-- <iframe src="https://www.google.com/calendar/embed?showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=980&amp;wkst=2&amp;bgcolor=%23ffff66&amp;src=michael.friedli%40hispeed.ch&amp;color=%230D7813&amp;ctz=Europe%2FZurich" style=" border:solid 1px #777 " width="1300" height="800" frameborder="0" scrolling="no"></iframe>
                 --> 
-                <div ng-if="contentCtrl.showImage" class="repeat-content-animation">
+                <div ng-if="contentCtrl.showImage"> <!--class="repeat-content-animation">-->
                     <span style="vertical-align: middle;">
                         <img ng-src="{{contentCtrl.contentUrl}}" height="{{contentCtrl.content.height}}" width="{{contentCtrl.content.width}}">
                     </span>
                 </div>
                 
-                <div ng-if="contentCtrl.showWebpage" class="repeat-content-animation">
+                <div ng-if="contentCtrl.showWebpage"> <!--class="repeat-content-animation">-->
                     <span style="vertical-align: middle;"> 
                         <iframe ng-src="{{contentCtrl.contentUrl}}" type="text/html" style="border:solid 1px #777" height="{{contentCtrl.content.height}}" width="{{contentCtrl.content.width}}" frameborder="0" scrolling="no"></iframe>
                     </span>
                 </div>
                 
-                <div ng-if="contentCtrl.showVideo" class="repeat-content-animation">
+                <div ng-if="contentCtrl.showVideo"> <!-- class="repeat-content-animation">-->
                     <span style="vertical-align: middle;">
                         <video autoplay="true" width="{{contentCtrl.content.height}}" height="{{contentCtrl.content.height}}">
                             <source src="{{contentCtrl.contentUrl}}" type="video/mp4">

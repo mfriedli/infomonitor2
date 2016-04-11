@@ -62,6 +62,7 @@ public class LockerRoomEndpoint {
      * all connected clients.
      * 
      */
+    //@Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/34", hour = "8-22", info = "Locker Room Event publisher")
     @Schedule(persistent = false, second = "*", minute = "*/32", hour = "*", info = "Locker Room Event publisher")
     //@Schedule(persistent = false, second = "*/15", minute = "*", hour = "*", info = "Locker Room Event publisher")
     public void onLockerRoomEvent() {    

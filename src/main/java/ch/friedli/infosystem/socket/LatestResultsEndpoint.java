@@ -59,7 +59,8 @@ public class LatestResultsEndpoint {
      * connected clients.
      *
      */
-    @Schedule(persistent = false, second = "*", minute = "*/15", hour = "*", info = "Latest Result Event publisher")
+    //@Schedule(persistent = false, dayOfWeek = "6,7", second = "*", minute = "*/25", hour = "7-22", info = "Locker Room Event publisher")
+    @Schedule(persistent = false, second = "*", minute = "*/17", hour = "*", info = "Latest Result Event publisher")
     //@Schedule(persistent = false, second = "*/15", minute = "*", hour = "*", info = "Latest Result Event publisher")
     public void onLastResultEvent() {
         for (Session peer : this.peers) {
