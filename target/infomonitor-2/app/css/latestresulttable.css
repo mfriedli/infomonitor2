@@ -1,0 +1,28 @@
+.results-title-icon {
+    margin-right: 15px;
+    margin-left: 2px;
+}
+
+
+.repeat-animation.ng-enter-stagger,
+.repeat-animation.ng-leave-stagger {
+    -webkit-animation-delay:0.2s;
+    animation-delay:0.2s;
+
+    /* yes we still need to do this too */
+    -webkit-animation-duration:0.2;
+    animation-duration:0.2;
+}
+
+.repeat-animation.ng-move,
+.repeat-animation.ng-enter {
+    opacity:0;
+    -webkit-animation: fadeInDown 0.5s;
+    animation:fadeInDown 0.5s;
+}
+
+/*.repeat-animation.ng-leave {
+    -webkit-animation: fadeOutDown 0.5s;
+    animation:fadeOutDown 0.5s;
+}*/
+
