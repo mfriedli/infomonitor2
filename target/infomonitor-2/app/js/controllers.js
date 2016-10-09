@@ -19,23 +19,9 @@ infoMonitorApp.controller('LatestResultsCtrl', ['$scope','$timeout', function La
     };
     ws.onmessage = function(message) {
         $scope.$apply(function() {
-            thisCtrlCtx.results=[];                 
+            thisCtrlCtx.results = angular.fromJson(message.data);               
         });
-       
-        $timeout(function() {
-            $scope.$apply(function() {
-                thisCtrlCtx.results = angular.fromJson(message.data);  
-            });
-        }, 500);
-        //applyToCtrlScope(message);
     };
-
-    function applyToCtrlScope(message) {    
-        
-        $scope.$apply(function() {
-            thisCtrlCtx.results = angular.fromJson(message.data);  
-        });
-    }
 
     $scope.$on("$destroy", function() {
         ws.close();

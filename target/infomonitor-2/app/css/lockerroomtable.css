@@ -4,10 +4,4 @@
 
 }
 
-.repeat-animation-locker.ng-move,
-.repeat-animation-locker.ng-enter {
-    opacity:0;
-    -webkit-animation: lightSpeedIn 2.5s;
-    animation: lightSpeedIn 2.5s;
-}
 

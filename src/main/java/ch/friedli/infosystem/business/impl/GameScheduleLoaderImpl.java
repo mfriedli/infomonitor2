@@ -109,6 +109,7 @@ public class GameScheduleLoaderImpl { //implements GameScheduleLoaderRemote {
                 detailHome.setTimeString(time.toString());
                 detailHome.setTeamName(game.getHeim());
                 detailHome.setLeague(entry.getKey());
+                detailHome.setAlreadyPlayed(game.getGespielt()==1);
                 details.add(detailHome);
 
                 // guest team locker room
@@ -117,12 +118,12 @@ public class GameScheduleLoaderImpl { //implements GameScheduleLoaderRemote {
                 detailGuest.setTimeString(time.toString());
                 detailGuest.setTeamName(game.getGast());
                 detailGuest.setLeague(entry.getKey());
+                detailGuest.setAlreadyPlayed(game.getGespielt()==1);
                 details.add(detailGuest);
             }
         }
-        // Now assign the locker rooms to the first six LockerRoomDetail entries
-        // sort the locker room details by game time and only consider the first 
-        // 6 locker room details to assign a locker room number
+        // Now assign the locker rooms to all LockerRoomDetail entries
+        // sort the locker room details by game time 
         Collections.sort(details, new LockerRoomDateComparator());
         List<LockerRoomDetail> lockerRoomsList = new ArrayList<>();
 
@@ -139,9 +140,6 @@ public class GameScheduleLoaderImpl { //implements GameScheduleLoaderRemote {
         // the guest team locker room 4
         // then we start over with 1 and 3
         for (LockerRoomDetail detail : details) {
-            if (lockerRoomsList.size() == 6) {
-                break; // need only 6 locker room details in result
-            }
             if (index > (lockerRoomNbrs.length - 1)) {
                 index = 0; //start over with locker room 3 + 1
             }
@@ -149,7 +147,20 @@ public class GameScheduleLoaderImpl { //implements GameScheduleLoaderRemote {
             lockerRoomsList.add(detail);
             index++;
         }
-        return lockerRoomsList;
+        
+        // only 6 games not yet finished to be considered
+        List<LockerRoomDetail> resultingLockerRoomsList = new ArrayList<>();
+        int cnt = 0;
+        for(LockerRoomDetail detail : lockerRoomsList) {
+            if (!detail.isAlreadyPlayed()) {
+                resultingLockerRoomsList.add(detail);
+                cnt++;
+            }
+            if (cnt == 6) {
+                break; // only consider max. 6 details means 3 games
+            }
+        }
+        return resultingLockerRoomsList;
     }
 
     private Map<String, List<Ihs.Spiel>> loadEntireGameSchedule() {
@@ -193,23 +204,12 @@ public class GameScheduleLoaderImpl { //implements GameScheduleLoaderRemote {
         for (Entry<String, List<Ihs.Spiel>> entry : allLeagueGamesMap.entrySet()) {
             List<Ihs.Spiel> gamesList = new LinkedList<>();
             nextGames.put(entry.getKey(), gamesList);
-            // get current time/ date minus 2.5 h
-            DateTime timeRange = new DateTime();
-            timeRange = timeRange.minusHours(2);
-            timeRange = timeRange.minusMinutes(30);
+            DateTime today = new DateTime();
             for (Ihs.Spiel game : entry.getValue()) {
-                // game not yet played and is held in Kaltbrunn
-                if (game.getAbgesagt() == 0 && game.getGespielt() == 0
+                // game not cancelled and held in Kaltbrunn
+                if (game.getAbgesagt() == 0
                         && game.getSpielort().contains("Kaltbrunn")) {
-
-                    // get the date of the current game
-                    DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
-                    DateTime gameDateTime = formatter.parseDateTime(game.getDatum());
-                    // only consider games that are in the future or within 2.5 hours
-                    // of now 
-                    if (gameDateTime.isAfter(timeRange)) {
-                        gamesList.add(game);
-                    }
+                    gamesList.add(game);                    
                 }
             }
         }

@@ -10,6 +10,7 @@ public class LockerRoomDetail {
     private String dateString;
     private String teamName;
     private String league;
+    private boolean alreadyPlayed;
 
     public String getLeague() {
         return league;
@@ -73,5 +74,13 @@ public class LockerRoomDetail {
      */
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public boolean isAlreadyPlayed() {
+        return alreadyPlayed;
+    }
+
+    public void setAlreadyPlayed(boolean alreadyPlayed) {
+        this.alreadyPlayed = alreadyPlayed;
     }
 }
